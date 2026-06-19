@@ -4,6 +4,7 @@ const mysql2 = require("mysql2/promise");
 const rawHost = process.env.HOST || "localhost";
 let mysqlHost = rawHost;
 let mysqlPort = Number(process.env.MYSQL_PORT || 3306);
+
 if (rawHost.includes(":")) {
     const [hostPart, portPart] = rawHost.split(":");
     mysqlHost = hostPart;
@@ -22,6 +23,9 @@ const pool = mysql2.createPool({
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
     connectionLimit: 10,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 module.exports = pool;
